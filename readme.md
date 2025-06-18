@@ -2,9 +2,9 @@
 graph TD
     subgraph "Flujo Principal"
         Start["Inicio"] --> Init["Inicializar Variables"]
-        Init --> ShowMenu["1. Mostrar Menú"]
-        ShowMenu --> GetChoice["2. Leer Opción"]
-        GetChoice --> Choice{"3. Evaluar Opción"}
+        Init --> ShowMenu["1- Mostrar Menú"]
+        ShowMenu --> GetChoice["2- Leer Opción"]
+        GetChoice --> Choice{"3- Evaluar Opción"}
     end
 
     Choice -- "7" --> End["Fin del Programa"]
