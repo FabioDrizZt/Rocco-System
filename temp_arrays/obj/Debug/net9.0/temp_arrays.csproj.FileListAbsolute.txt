@@ -1,0 +1,15 @@
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\bin\Debug\net9.0\temp_arrays.exe
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\bin\Debug\net9.0\temp_arrays.deps.json
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\bin\Debug\net9.0\temp_arrays.runtimeconfig.json
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\bin\Debug\net9.0\temp_arrays.dll
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\bin\Debug\net9.0\temp_arrays.pdb
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\obj\Debug\net9.0\temp_arrays.GeneratedMSBuildEditorConfig.editorconfig
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\obj\Debug\net9.0\temp_arrays.AssemblyInfoInputs.cache
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\obj\Debug\net9.0\temp_arrays.AssemblyInfo.cs
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\obj\Debug\net9.0\temp_arrays.csproj.CoreCompileInputs.cache
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\obj\Debug\net9.0\temp_arrays.sourcelink.json
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\obj\Debug\net9.0\temp_arrays.dll
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\obj\Debug\net9.0\refint\temp_arrays.dll
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\obj\Debug\net9.0\temp_arrays.pdb
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\obj\Debug\net9.0\temp_arrays.genruntimeconfig.cache
+E:\Users\UsuarioPc\Documents\Rocco\temp_arrays\obj\Debug\net9.0\ref\temp_arrays.dll
