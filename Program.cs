@@ -2,16 +2,16 @@ using System;
 
 class Programa
 {
-    // Se anida el record Usuario dentro de la clase Programa para que pueda acceder a las constantes.
-    record Usuario
+    // Se anida el struct Usuario dentro de la clase Programa para que pueda acceder a las constantes.
+    struct Usuario
     {
-        public string? NombreCompleto;
-        public string? DNI;
-        public string? Correo;
-        public string? NombreDeUsuario;
-        public string? Clave;
-        public string?[] CursosInscritos = new string[MaxCursosPorUsuario];
-        public int CantidadDeCursos = 0;
+        public string NombreCompleto;
+        public string DNI;
+        public string Correo;
+        public string NombreDeUsuario;
+        public string Clave;
+        public string[] CursosInscritos; // No se puede inicializar aquí en un struct de .NET 4.0
+        public int CantidadDeCursos;
     }
 
     const int MaxUsuarios = 100;
@@ -23,17 +23,17 @@ class Programa
     static string[] cursosDisponibles = { "Conceptos de programación", "Introducción a la Matemática", "Problemas de Historia", "Prácticas culturales" };
     static string[] sugerencias = new string[MaxSugerencias];
     static int cantidadDeSugerencias = 0;
-    static Usuario? usuarioActual;
+    static int indiceUsuarioActual = -1; // Usaremos un índice en lugar de un objeto
 
     static void Main()
     {
         while (true)
         {
             Console.WriteLine("\n========================================");
-            if (usuarioActual == null)
+            if (indiceUsuarioActual == -1) // Comprobamos si hay un usuario logueado usando el índice
             {
                 MostrarMenuPrincipal();
-                string? eleccion = Console.ReadLine();
+                string eleccion = Console.ReadLine();
                 switch (eleccion)
                 {
                     case "1":
@@ -56,7 +56,7 @@ class Programa
             else
             {
                 MostrarMenuUsuarioLogueado();
-                string? eleccion = Console.ReadLine();
+                string eleccion = Console.ReadLine();
                 switch (eleccion)
                 {
                     case "1":
@@ -94,7 +94,7 @@ class Programa
 
     static void MostrarMenuUsuarioLogueado()
     {
-        Console.WriteLine($"¡Hola, {usuarioActual?.NombreDeUsuario}!");
+        Console.WriteLine($"¡Hola, {listaDeUsuarios[indiceUsuarioActual].NombreDeUsuario}!");
         Console.WriteLine("=== MENÚ DE USUARIO ===");
         Console.WriteLine("1. Ver cursos disponibles");
         Console.WriteLine("2. Ver mis cursos");
@@ -112,6 +112,9 @@ class Programa
             return;
         }
         Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.CursosInscritos = new string[MaxCursosPorUsuario]; // Inicializamos el array aquí
+        nuevoUsuario.CantidadDeCursos = 0;
+
 
         Console.Write("Nombre y apellido: ");
         nuevoUsuario.NombreCompleto = Console.ReadLine();
@@ -150,16 +153,16 @@ class Programa
     static void IniciarSesion()
     {
         Console.Write("Nombre de usuario: ");
-        string? usuarioIngresado = Console.ReadLine();
+        string usuarioIngresado = Console.ReadLine();
         Console.Write("Clave: ");
-        string? claveIngresada = Console.ReadLine();
+        string claveIngresada = Console.ReadLine();
 
         bool encontrado = false;
         for (int i = 0; i < cantidadDeUsuarios; i++)
         {
             if (listaDeUsuarios[i].NombreDeUsuario == usuarioIngresado && listaDeUsuarios[i].Clave == claveIngresada)
             {
-                usuarioActual = listaDeUsuarios[i];
+                indiceUsuarioActual = i; // Guardamos el índice del usuario
                 Console.WriteLine("Inicio de sesión exitoso.");
                 encontrado = true;
                 break;
@@ -173,22 +176,22 @@ class Programa
 
     static void CerrarSesion()
     {
-        usuarioActual = null;
+        indiceUsuarioActual = -1; // Reseteamos el índice
         Console.WriteLine("Sesión cerrada.");
     }
 
     static void VerCursosDelUsuario()
     {
         Console.WriteLine("=== Mis cursos ===");
-        if (usuarioActual!.CantidadDeCursos == 0)
+        if (listaDeUsuarios[indiceUsuarioActual].CantidadDeCursos == 0)
         {
             Console.WriteLine("No estás inscripto en ningún curso.");
         }
         else
         {
-            for (int i = 0; i < usuarioActual.CantidadDeCursos; i++)
+            for (int i = 0; i < listaDeUsuarios[indiceUsuarioActual].CantidadDeCursos; i++)
             {
-                Console.WriteLine("- " + usuarioActual.CursosInscritos[i]);
+                Console.WriteLine("- " + listaDeUsuarios[indiceUsuarioActual].CursosInscritos[i]);
             }
         }
     }
@@ -207,9 +210,9 @@ class Programa
 
     static int BuscarPosicionInscripcion(string nombreCurso)
     {
-        for (int i = 0; i < usuarioActual!.CantidadDeCursos; i++)
+        for (int i = 0; i < listaDeUsuarios[indiceUsuarioActual].CantidadDeCursos; i++)
         {
-            if (usuarioActual.CursosInscritos[i] == nombreCurso)
+            if (listaDeUsuarios[indiceUsuarioActual].CursosInscritos[i] == nombreCurso)
             {
                 return i;
             }
@@ -221,7 +224,7 @@ class Programa
     {
         MostrarCursos();
         Console.Write("Escriba el nombre exacto del curso al que desea inscribirse: ");
-        string? cursoElegido = Console.ReadLine();
+        string cursoElegido = Console.ReadLine();
 
         if (string.IsNullOrEmpty(cursoElegido))
         {
@@ -233,10 +236,10 @@ class Programa
         {
             if (BuscarPosicionInscripcion(cursoElegido) == -1)
             {
-                if (usuarioActual!.CantidadDeCursos < MaxCursosPorUsuario)
+                if (listaDeUsuarios[indiceUsuarioActual].CantidadDeCursos < MaxCursosPorUsuario)
                 {
-                    usuarioActual.CursosInscritos[usuarioActual.CantidadDeCursos] = cursoElegido;
-                    usuarioActual.CantidadDeCursos++;
+                    listaDeUsuarios[indiceUsuarioActual].CursosInscritos[listaDeUsuarios[indiceUsuarioActual].CantidadDeCursos] = cursoElegido;
+                    listaDeUsuarios[indiceUsuarioActual].CantidadDeCursos++;
                     Console.WriteLine("Inscripción exitosa.");
                 }
                 else
@@ -259,13 +262,13 @@ class Programa
     {
         VerCursosDelUsuario();
 
-        if (usuarioActual!.CantidadDeCursos == 0)
+        if (listaDeUsuarios[indiceUsuarioActual].CantidadDeCursos == 0)
         {
             return;
         }
 
         Console.Write("Curso a cancelar: ");
-        string? cursoCancelar = Console.ReadLine();
+        string cursoCancelar = Console.ReadLine();
 
         if (string.IsNullOrEmpty(cursoCancelar))
         {
@@ -277,12 +280,12 @@ class Programa
 
         if (posicion != -1)
         {
-            for (int j = posicion; j < usuarioActual.CantidadDeCursos - 1; j++)
+            for (int j = posicion; j < listaDeUsuarios[indiceUsuarioActual].CantidadDeCursos - 1; j++)
             {
-                usuarioActual.CursosInscritos[j] = usuarioActual.CursosInscritos[j + 1];
+                listaDeUsuarios[indiceUsuarioActual].CursosInscritos[j] = listaDeUsuarios[indiceUsuarioActual].CursosInscritos[j + 1];
             }
-            usuarioActual.CursosInscritos[usuarioActual.CantidadDeCursos - 1] = null; // Limpiar el último elemento
-            usuarioActual.CantidadDeCursos--;
+            listaDeUsuarios[indiceUsuarioActual].CursosInscritos[listaDeUsuarios[indiceUsuarioActual].CantidadDeCursos - 1] = null; // Limpiar el último elemento
+            listaDeUsuarios[indiceUsuarioActual].CantidadDeCursos--;
             Console.WriteLine("Curso cancelado.");
         }
         else
@@ -294,7 +297,7 @@ class Programa
     static void EnviarSugerencia()
     {
         Console.Write("Ingrese su sugerencia: ");
-        string? texto = Console.ReadLine();
+        string texto = Console.ReadLine();
         if (string.IsNullOrEmpty(texto))
         {
             Console.WriteLine("La sugerencia no puede estar vacía.");
